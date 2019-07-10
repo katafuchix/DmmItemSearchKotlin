@@ -44,7 +44,7 @@ data class DmmApiResultActress(
 )
 
 data class ActressesData(
-    val items: List<Actress>?,
+    val actress: List<Actress>?,
     val status: Int,
     val result_count: Int,
     val total_count: Int,

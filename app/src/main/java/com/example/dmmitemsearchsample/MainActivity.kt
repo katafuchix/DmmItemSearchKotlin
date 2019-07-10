@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.example.dmmitemsearchsample.ui.ActressSearchFragment
 import com.example.dmmitemsearchsample.ui.ItemSearchFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -26,7 +27,7 @@ class TabAdapter(fm: FragmentManager, private val context: Context): FragmentPag
     override fun getItem(position: Int): Fragment {
         when(position){
             0 -> { return ItemSearchFragment.createInstance() }
-            else ->  { return ItemSearchFragment.createInstance() }
+            else ->  { return ActressSearchFragment.createInstance() }
         }
     }
 

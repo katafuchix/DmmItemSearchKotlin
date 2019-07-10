@@ -7,12 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.dmmitemsearchsample.common.Constants
 import com.example.dmmitemsearchsample.common.repository.DmmApiRepository
-import com.example.dmmitemsearchsample.model.Item
-import io.reactivex.Observable
+import com.example.dmmitemsearchsample.model.Actress
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
 
 class ActressSearchViewModel(
     private val dmmApiRepository: DmmApiRepository
@@ -20,42 +18,39 @@ class ActressSearchViewModel(
 
     private val compositeDisposable = CompositeDisposable()
 
-    data class ItemModel(
-        val item: Item
+    data class ActressModel(
+        val actress: Actress
     )
 
     data class Pages(val totalCount: Int, val firstPosition: Int)
-    data class ItemsResult(val itemData: List<ItemModel>, val pages: Pages)
+    data class ActressResult(val actressData: List<ActressModel>, val pages: Pages)
 
-    private val _itemsResult = MutableLiveData<ItemsResult>()
-    val itemsResult: LiveData<ItemsResult> = _itemsResult
+    private val _actressResult = MutableLiveData<ActressResult>()
+    val actressResult: LiveData<ActressResult> = _actressResult
 
     init {
 
     }
 
-    fun getItems(
+    fun getActresses(
         keyword: String,
         offset: Int
 
     ){
         compositeDisposable.add(
-            dmmApiRepository.getItems(
-                "DMM.com",//site,
-                "digital", //service,
+            dmmApiRepository.getActresses(
                 offset,
                 Constants.hits,
-                "idol",
-                "date",
+                "name",
                 keyword
             ).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     { result ->
-                        _itemsResult.value = ItemsResult(
-                            result.result.items!!.map {
+                        _actressResult.value = ActressResult(
+                            result.result.actress!!.map {
                                 Log.d("http", it.toString())
-                                ItemModel(it) },
+                                ActressModel(it) },
                             Pages(
                                 result.result.total_count, result.result.first_position
                             )

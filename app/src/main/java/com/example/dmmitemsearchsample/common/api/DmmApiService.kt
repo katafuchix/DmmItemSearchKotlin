@@ -26,7 +26,6 @@ interface DmmApiService {
     fun getActresses(
         @Query("offset") offset: Int,
         @Query("hits") hits: Int,
-        @Query("floor") floor: String,
         @Query("sort") sort: String,
         @Query("keyword") keyword: String
     ): Observable<DmmApiResultActress>

@@ -1,17 +1,17 @@
 package com.example.dmmitemsearchsample.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.provider.SyncStateContract
-import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,20 +19,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.dmmitemsearchsample.R
 import com.example.dmmitemsearchsample.common.Constants
 import com.example.dmmitemsearchsample.common.repository.DmmApiRepositoryImpl
-import com.example.dmmitemsearchsample.viewmodel.ItemSearchViewModel
-import com.example.dmmitemsearchsample.databinding.FragmentItemsearchBinding
+import com.example.dmmitemsearchsample.databinding.FragmentActresssearchBinding
+import com.example.dmmitemsearchsample.viewmodel.ActressSearchViewModel
 import com.kaopiz.kprogresshud.KProgressHUD
 import io.reactivex.subjects.BehaviorSubject
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import androidx.lifecycle.MutableLiveData
 
-class ItemSearchFragment : Fragment() {
+class ActressSearchFragment : Fragment() {
 
     companion object {
-        fun createInstance(): ItemSearchFragment {
-            val fragment = ItemSearchFragment()
+        fun createInstance(): ActressSearchFragment {
+            val fragment = ActressSearchFragment()
             return fragment
         }
     }
@@ -41,11 +37,11 @@ class ItemSearchFragment : Fragment() {
             by lazy {
                 context?.run {
                     ViewModelProviders.of(
-                        this@ItemSearchFragment,
-                        ItemSearchViewModel.Factory(
+                        this@ActressSearchFragment,
+                        ActressSearchViewModel.Factory(
                             DmmApiRepositoryImpl()
                         )
-                    ).get(ItemSearchViewModel::class.java)
+                    ).get(ActressSearchViewModel::class.java)
                 }
             }
 
@@ -53,22 +49,12 @@ class ItemSearchFragment : Fragment() {
     private var currentOffset: Int = 1
     private var totalCount: Int = 0
 
-/*
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-        val r = inflater.inflate(R.layout.fragment_itemsearch, container, false)
-        return r
-    }
-*/
-
     private val adapter by lazy {
-        ItemSearchAdapter().apply {
-            this.lifecycleOwner = this@ItemSearchFragment
-            this.listener = object : ItemSearchAdapter.OnClickListener {
-                override fun onClick(item: ItemSearchAdapterViewModel) {
-                    onClickItem(item)
+        ActressSearchAdapter().apply {
+            this.lifecycleOwner = this@ActressSearchFragment
+            this.listener = object : ActressSearchAdapter.OnClickListener {
+                override fun onClick(item: ActressSearchAdapterViewModel) {
+                    onClickActress(item)
                 }
             }
         }
@@ -90,16 +76,21 @@ class ItemSearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding =
-            DataBindingUtil.inflate<FragmentItemsearchBinding>(inflater, R.layout.fragment_itemsearch, container, false)
+            DataBindingUtil.inflate<FragmentActresssearchBinding>(
+                inflater,
+                R.layout.fragment_actresssearch,
+                container,
+                false
+            )
                 .apply {
                     val binding = this
-                    val itemSearchFragment = this@ItemSearchFragment
-                    binding.lifecycleOwner = itemSearchFragment
-                    binding.viewModel = itemSearchFragment.viewModel
-                    binding.presenter = itemSearchFragment
+                    val actressSearchFragment = this@ActressSearchFragment
+                    binding.lifecycleOwner = actressSearchFragment
+                    binding.viewModel = actressSearchFragment.viewModel
+                    binding.presenter = actressSearchFragment
 
                     binding.listRecyclerView.apply {
-                        this.layoutManager = GridLayoutManager(itemSearchFragment.context, 2)
+                        this.layoutManager = GridLayoutManager(actressSearchFragment.context, 2)
                         this.setHasFixedSize(true)
 
                         // スクロール終了時の処理
@@ -107,15 +98,17 @@ class ItemSearchFragment : Fragment() {
 
                             if (isLoading.value == false
                                 && !lastItemLoaded
-                                && this@ItemSearchFragment.totalCount > this@ItemSearchFragment.loadingOffset + Constants.hits) {
+                                && this@ActressSearchFragment.totalCount > this@ActressSearchFragment.loadingOffset + Constants.hits
+                            ) {
 
                                 // 検索中
                                 isLoading.value = true
 
                                 // APIコール
-                                this@ItemSearchFragment.viewModel?.getItems(
-                                                        this@ItemSearchFragment.keyword,
-                                                        this@ItemSearchFragment.loadingOffset)
+                                this@ActressSearchFragment.viewModel?.getActresses(
+                                    this@ActressSearchFragment.keyword,
+                                    this@ActressSearchFragment.loadingOffset
+                                )
                             }
                         })
                     }
@@ -135,29 +128,30 @@ class ItemSearchFragment : Fragment() {
                             // キーボードを下げる
                             searchView.clearFocus()
                             // 検索開始
-                            itemSearchFragment.keyword = query
+                            actressSearchFragment.keyword = query
                             return true
                         }
                     })
 
                     // 検索
                     keywordSubject.subscribe {
-                        itemSearchFragment.loadingOffset = 1
-                        itemSearchFragment.viewModel?.getItems(it, 1)
+                        actressSearchFragment.loadingOffset = 1
+                        actressSearchFragment.viewModel?.getActresses(it, 1)
                     }
 
                     // 検索結果
-                    itemSearchFragment.viewModel?.itemsResult?.observe(itemSearchFragment, Observer {
+                    actressSearchFragment.viewModel?.actressResult?.observe(actressSearchFragment, Observer {
                         // リストデータ追加
+                        Log.d("http", it.actressData.toString())
                         adapter.dataList.addAll(
-                            it.itemData.map {
-                                ItemSearchAdapterViewModel().apply {
+                            it.actressData.map {
+                                ActressSearchAdapterViewModel().apply {
                                     val viewModel = this
-                                    viewModel.id.value              = it.item.content_id
-                                    viewModel.title.value           = it.item.title
-                                    viewModel.affiliateURL.value    = it.item.affiliateURL
+                                    viewModel.id.value = it.actress.id
+                                    viewModel.title.value = it.actress.name
+                                    //viewModel.affiliateURL.value = it.item.affiliateURL
 
-                                    it.item.imageURL?.apply {
+                                    it.actress.imageURL?.apply {
                                         viewModel.imageUrl.value = this?.large
                                     }
                                 }
@@ -166,21 +160,22 @@ class ItemSearchFragment : Fragment() {
 
                         // ページ数
                         it.pages.run {
-                            this@ItemSearchFragment.totalCount = this.totalCount
-                            if(this.totalCount > this@ItemSearchFragment.loadingOffset + Constants.hits) {
-                                this@ItemSearchFragment.loadingOffset = this@ItemSearchFragment.loadingOffset + Constants.hits
+                            this@ActressSearchFragment.totalCount = this.totalCount
+                            if (this.totalCount > this@ActressSearchFragment.loadingOffset + Constants.hits) {
+                                this@ActressSearchFragment.loadingOffset =
+                                    this@ActressSearchFragment.loadingOffset + Constants.hits
                             } else {
-                                this@ItemSearchFragment.lastItemLoaded = true
+                                this@ActressSearchFragment.lastItemLoaded = true
                             }
                         }
                         // 検索終了
-                        this@ItemSearchFragment.isLoading.value = false
+                        this@ActressSearchFragment.isLoading.value = false
                     })
 
                     // ロード中
-                    isLoading.observe(itemSearchFragment, Observer {
+                    isLoading.observe(actressSearchFragment, Observer {
                         if (it) {
-                            hud = KProgressHUD.create(this@ItemSearchFragment.context)
+                            hud = KProgressHUD.create(this@ActressSearchFragment.context)
                                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                             hud!!.show()
                         } else {
@@ -191,12 +186,13 @@ class ItemSearchFragment : Fragment() {
                     // UI設定
                     return binding.root.apply {
                         val root = this
-                        this.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                        this.viewTreeObserver.addOnGlobalLayoutListener(object :
+                            ViewTreeObserver.OnGlobalLayoutListener {
                             override fun onGlobalLayout() {
                                 root.viewTreeObserver.removeOnGlobalLayoutListener(this)
 
                                 // RecyclerView に adapter を設定
-                                binding.listRecyclerView.adapter = this@ItemSearchFragment.adapter.apply {
+                                binding.listRecyclerView.adapter = this@ActressSearchFragment.adapter.apply {
                                     this.screenWidth = root.width
                                 }
                             }
@@ -205,9 +201,9 @@ class ItemSearchFragment : Fragment() {
                 }
     }
 
-    fun onClickItem(item: ItemSearchAdapterViewModel) {
+    fun onClickActress(item: ActressSearchAdapterViewModel) {
         val uri = Uri.parse(item.affiliateURL.value)
-        startActivity(Intent(Intent.ACTION_VIEW,uri))
+        startActivity(Intent(Intent.ACTION_VIEW, uri))
     }
 
     // スクロール終了時の処理

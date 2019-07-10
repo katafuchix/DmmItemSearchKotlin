@@ -36,7 +36,6 @@ interface DmmApiRepository {
     fun getActresses(
         offset: Int,
         hits: Int,
-        floor: String,
         sort: String,
         keyword: String
     ): Observable<DmmApiResultActress>
@@ -70,7 +69,6 @@ class DmmApiRepositoryImpl : DmmApiRepository {
     override fun getActresses(
         offset: Int,
         hits: Int,
-        floor: String,
         sort: String,
         keyword: String
     ): Observable<DmmApiResultActress> {
@@ -78,7 +76,6 @@ class DmmApiRepositoryImpl : DmmApiRepository {
             .getActresses(
                 offset,
                 hits,
-                floor,
                 sort,
                 keyword
             )
