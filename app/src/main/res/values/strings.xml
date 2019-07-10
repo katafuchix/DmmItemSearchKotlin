@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">DmmItemSearchSample</string>
+    <string name="loading_title">Loading</string>
+    <string name="item_search">作品検索</string>
+    <string name="actress_search">女優検索</string>
+    <string name="title_notifications">Notifications</string>
+</resources>
