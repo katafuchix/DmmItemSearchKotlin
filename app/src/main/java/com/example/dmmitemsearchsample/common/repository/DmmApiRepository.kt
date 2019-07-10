@@ -3,7 +3,7 @@ package com.example.dmmitemsearchsample.common.repository
 import com.example.dmmitemsearchsample.common.Constants
 import com.example.dmmitemsearchsample.common.api.DmmApiService
 import com.example.dmmitemsearchsample.common.api.RetrofitServiceGenerator
-import com.example.dmmitemsearchsample.model.DmmApiResult
+import com.example.dmmitemsearchsample.model.*
 import io.reactivex.Observable
 
 fun RetrofitServiceGenerator.createCategoriesApiService(): DmmApiService {
@@ -31,7 +31,15 @@ interface DmmApiRepository {
         floor: String,
         sort: String,
         keyword: String
-    ): Observable<DmmApiResult>
+    ): Observable<DmmApiResultItem>
+
+    fun getActresses(
+        offset: Int,
+        hits: Int,
+        floor: String,
+        sort: String,
+        keyword: String
+    ): Observable<DmmApiResultActress>
 }
 
 class DmmApiRepositoryImpl : DmmApiRepository {
@@ -44,12 +52,30 @@ class DmmApiRepositoryImpl : DmmApiRepository {
         sort: String,
         keyword: String
 
-    ): Observable<DmmApiResult> {
+    ): Observable<DmmApiResultItem> {
 
         return RetrofitServiceGenerator.createCategoriesApiService()
             .getItems(
                 site,
                 service,
+                offset,
+                hits,
+                floor,
+                sort,
+                keyword
+            )
+
+    }
+
+    override fun getActresses(
+        offset: Int,
+        hits: Int,
+        floor: String,
+        sort: String,
+        keyword: String
+    ): Observable<DmmApiResultActress> {
+        return RetrofitServiceGenerator.createCategoriesApiService()
+            .getActresses(
                 offset,
                 hits,
                 floor,

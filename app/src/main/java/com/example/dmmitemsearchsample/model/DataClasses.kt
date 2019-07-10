@@ -1,9 +1,5 @@
 package com.example.dmmitemsearchsample.model
 
-data class SearchData(
-    val result: ItemsData
-)
-
 data class ItemsData(
     val items: List<Item>?,
     val status: Int,
@@ -28,7 +24,7 @@ data class Item (
     var affiliateURL: String
 )
 
-data class DmmApiResult(
+data class DmmApiResultItem(
     val result: ItemsData
 )
 
@@ -41,4 +37,40 @@ data class ImageURL(
 data class Review(
     var count: Int,
     var average: String
+)
+
+data class DmmApiResultActress(
+    val result: ActressesData
+)
+
+data class ActressesData(
+    val items: List<Actress>?,
+    val status: Int,
+    val result_count: Int,
+    val total_count: Int,
+    val first_position: Int
+)
+
+data class Actress (
+    var id: String,
+    var name: String,
+    var ruby: String,
+    var bust: String?,
+    var waist: String?,
+    var hip: String?,
+    var height: String?,
+    var birthday: String?,
+    var blood_type: String?,
+    var hobby: String?,
+    var prefectures: String?,
+    var listURL: ListURL?,
+    var imageURL: ImageURL?
+)
+
+data class ListURL(
+    var digital: String?,
+    var monthly: String?,
+    var ppm: String?,
+    var mono: String?,
+    var rental: String?
 )
