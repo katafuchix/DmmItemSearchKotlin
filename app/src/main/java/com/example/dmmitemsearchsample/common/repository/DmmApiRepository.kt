@@ -6,7 +6,7 @@ import com.example.dmmitemsearchsample.common.api.RetrofitServiceGenerator
 import com.example.dmmitemsearchsample.model.*
 import io.reactivex.Observable
 
-fun RetrofitServiceGenerator.createCategoriesApiService(): DmmApiService {
+fun RetrofitServiceGenerator.createDmmApiService(): DmmApiService {
     val apiUrl = Constants.BASE_URL
     val client = RetrofitServiceGenerator.builderHttpClient()
     //val gson = com.google.gson.GsonBuilder().setFieldNamingPolicy(com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create()
@@ -53,7 +53,7 @@ class DmmApiRepositoryImpl : DmmApiRepository {
 
     ): Observable<DmmApiResultItem> {
 
-        return RetrofitServiceGenerator.createCategoriesApiService()
+        return RetrofitServiceGenerator.createDmmApiService()
             .getItems(
                 site,
                 service,
@@ -72,7 +72,7 @@ class DmmApiRepositoryImpl : DmmApiRepository {
         sort: String,
         keyword: String
     ): Observable<DmmApiResultActress> {
-        return RetrofitServiceGenerator.createCategoriesApiService()
+        return RetrofitServiceGenerator.createDmmApiService()
             .getActresses(
                 offset,
                 hits,

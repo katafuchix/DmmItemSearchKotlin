@@ -8,11 +8,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.dmmitemsearchsample.common.Constants
 import com.example.dmmitemsearchsample.common.repository.DmmApiRepository
 import com.example.dmmitemsearchsample.model.Item
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
 
 class ItemSearchViewModel(
     private val dmmApiRepository: DmmApiRepository

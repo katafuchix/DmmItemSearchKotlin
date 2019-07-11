@@ -201,6 +201,7 @@ class ActressSearchFragment : Fragment() {
                 }
     }
 
+    // クリックで作品画面に飛ばす
     fun onClickActress(item: ActressSearchAdapterViewModel) {
         val uri = Uri.parse(item.affiliateURL.value)
         startActivity(Intent(Intent.ACTION_VIEW, uri))
