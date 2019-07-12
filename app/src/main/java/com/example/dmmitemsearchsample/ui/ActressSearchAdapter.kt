@@ -22,7 +22,7 @@ class ActressSearchAdapter : RecyclerView.Adapter<ActressSearchAdapter.ActressVi
         fun bind(data: ActressSearchAdapterViewModel, screenWidth: Int) {
 
             if (data.imageUrl.value == null) {
-                //ImageLoader.imageUrlToView(R.drawable.avatar_default_new, binding.memberImage.image)
+                ImageLoader.imageUrlToView(R.drawable.avatar_default_new, binding.memberImage.image)
             } else {
                 ImageLoader.imageUrlToViewAsCircle(
                     data.imageUrl.value!!,

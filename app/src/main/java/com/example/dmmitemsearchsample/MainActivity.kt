@@ -8,13 +8,13 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.dmmitemsearchsample.ui.ActressSearchFragment
 import com.example.dmmitemsearchsample.ui.ItemSearchFragment
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.main_activity.*
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.main_activity)
 
         pager.adapter = TabAdapter(supportFragmentManager,this)
         tab_layout.setupWithViewPager(pager)
