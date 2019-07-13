@@ -158,7 +158,7 @@ class ItemSearchFragment : Fragment() {
                                     viewModel.affiliateURL.value    = it.item.affiliateURL
 
                                     it.item.imageURL?.apply {
-                                        viewModel.imageUrl.value = this?.large
+                                        viewModel.imageUrl.value = this.large
                                     }
                                 }
                             }
@@ -187,22 +187,22 @@ class ItemSearchFragment : Fragment() {
                             hud?.dismiss()
                         }
                     })
+                }
 
-                    // UI設定
-                    return binding.root.apply {
-                        val root = this
-                        this.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-                            override fun onGlobalLayout() {
-                                root.viewTreeObserver.removeOnGlobalLayoutListener(this)
+        // UI設定
+        return binding.root.apply {
+            val root = this
+            this.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    root.viewTreeObserver.removeOnGlobalLayoutListener(this)
 
-                                // RecyclerView に adapter を設定
-                                binding.listRecyclerView.adapter = this@ItemSearchFragment.adapter.apply {
-                                    this.screenWidth = root.width
-                                }
-                            }
-                        })
+                    // RecyclerView に adapter を設定
+                    binding.listRecyclerView.adapter = this@ItemSearchFragment.adapter.apply {
+                        this.screenWidth = root.width
                     }
                 }
+            })
+        }
     }
 
     fun onClickItem(item: ItemSearchAdapterViewModel) {

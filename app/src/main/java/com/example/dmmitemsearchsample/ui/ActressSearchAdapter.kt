@@ -19,7 +19,7 @@ class ActressSearchAdapter : RecyclerView.Adapter<ActressSearchAdapter.ActressVi
     class ActressViewHolder(private val binding: CustomSearchActressItemBinding,
                             private val listener: OnClickListener?) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: ActressSearchAdapterViewModel, screenWidth: Int) {
+        fun bind(data: ActressSearchAdapterViewModel) {
 
             if (data.imageUrl.value == null) {
                 ImageLoader.imageUrlToView(R.drawable.avatar_default_new, binding.itemImage.image)
@@ -39,8 +39,6 @@ class ActressSearchAdapter : RecyclerView.Adapter<ActressSearchAdapter.ActressVi
     lateinit var lifecycleOwner: LifecycleOwner
 
     var listener: OnClickListener? = null
-
-    var screenWidth: Int? = null
 
     val dataList = object : ArrayList<ActressSearchAdapterViewModel>() {
         override fun addAll(elements: Collection<ActressSearchAdapterViewModel>): Boolean {
@@ -74,6 +72,6 @@ class ActressSearchAdapter : RecyclerView.Adapter<ActressSearchAdapter.ActressVi
     }
 
     override fun onBindViewHolder(holder: ActressViewHolder, position: Int) {
-        holder.bind(dataList[position], screenWidth!!)
+        holder.bind(dataList[position])
     }
 }
