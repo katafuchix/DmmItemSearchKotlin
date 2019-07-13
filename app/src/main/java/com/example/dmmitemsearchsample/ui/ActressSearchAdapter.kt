@@ -7,8 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dmmitemsearchsample.R
 import com.example.dmmitemsearchsample.common.util.ImageLoader
-import com.example.dmmitemsearchsample.databinding.CustomSearchActressBinding
-import com.example.dmmitemsearchsample.databinding.CustomSearchItemBinding
+import com.example.dmmitemsearchsample.databinding.CustomSearchActressItemBinding
 import kotlin.math.roundToInt
 
 class ActressSearchAdapter : RecyclerView.Adapter<ActressSearchAdapter.ActressViewHolder>() {
@@ -17,27 +16,22 @@ class ActressSearchAdapter : RecyclerView.Adapter<ActressSearchAdapter.ActressVi
         fun onClick(item: ActressSearchAdapterViewModel)
     }
 
-    class ActressViewHolder(private val binding: CustomSearchActressBinding, private val listener: OnClickListener?) :
+    class ActressViewHolder(private val binding: CustomSearchActressItemBinding,
+                            private val listener: OnClickListener?) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: ActressSearchAdapterViewModel, screenWidth: Int) {
 
             if (data.imageUrl.value == null) {
-                ImageLoader.imageUrlToView(R.drawable.avatar_default_new, binding.memberImage.image)
+                ImageLoader.imageUrlToView(R.drawable.avatar_default_new, binding.itemImage.image)
             } else {
                 ImageLoader.imageUrlToViewAsCircle(
                     data.imageUrl.value!!,
                     R.drawable.avatar_default_new,
-                    binding.memberImage.image
+                    binding.itemImage.image
                 )
             }
 
             binding.viewModel = data
-
-            binding.memberImage.image.layoutParams = binding.memberImage.image.layoutParams.apply {
-                this.width = ((screenWidth / 2) * 0.85).roundToInt()
-                this.height = ((screenWidth / 2) * 0.85).roundToInt()
-            }
-
             binding.card.setOnClickListener { listener?.onClick(data) }
         }
     }
@@ -63,9 +57,9 @@ class ActressSearchAdapter : RecyclerView.Adapter<ActressSearchAdapter.ActressVi
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActressViewHolder {
         return ActressViewHolder(
-            DataBindingUtil.inflate<CustomSearchActressBinding>(
+            DataBindingUtil.inflate<CustomSearchActressItemBinding>(
                 LayoutInflater.from(parent.context),
-                R.layout.custom_search_actress,
+                R.layout.custom_search_actress_item,
                 parent,
                 false
             ).apply {

@@ -27,13 +27,13 @@ class ItemSearchAdapter : RecyclerView.Adapter<ItemSearchAdapter.ItemViewHolder>
                 ImageLoader.imageUrlToViewAsCircle(
                     data.imageUrl.value!!,
                     R.drawable.avatar_default_new,
-                    binding.memberImage.image
+                    binding.itemImage.image
                 )
             }
 
             binding.viewModel = data
 
-            binding.memberImage.image.layoutParams = binding.memberImage.image.layoutParams.apply {
+            binding.itemImage.image.layoutParams = binding.itemImage.image.layoutParams.apply {
                 this.width = ((screenWidth / 2) * 0.85).roundToInt()
                 this.height = ((screenWidth / 2) * 0.85).roundToInt()
             }

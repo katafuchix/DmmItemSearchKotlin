@@ -46,7 +46,6 @@ class ActressSearchFragment : Fragment() {
             }
 
     private var loadingOffset: Int = 1
-    private var currentOffset: Int = 1
     private var totalCount: Int = 0
 
     private val adapter by lazy {
@@ -90,7 +89,7 @@ class ActressSearchFragment : Fragment() {
                     binding.presenter = actressSearchFragment
 
                     binding.listRecyclerView.apply {
-                        this.layoutManager = GridLayoutManager(actressSearchFragment.context, 2)
+                        this.layoutManager = GridLayoutManager(actressSearchFragment.context, 1)
                         this.setHasFixedSize(true)
 
                         // スクロール終了時の処理
@@ -148,11 +147,19 @@ class ActressSearchFragment : Fragment() {
                                 ActressSearchAdapterViewModel().apply {
                                     val viewModel = this
                                     viewModel.id.value = it.actress.id
-                                    viewModel.title.value = it.actress.name
-                                    //viewModel.affiliateURL.value = it.item.affiliateURL
+                                    viewModel.name.value = it.actress.name
+                                    viewModel.ruby.value = it.actress.ruby
+                                    viewModel.bust.value = it.actress.bust
+                                    viewModel.waist.value = it.actress.waist
+                                    viewModel.hip.value = it.actress.hip
+                                    viewModel.height.value = it.actress.height
+
+                                    it.actress.listURL?.apply {
+                                        viewModel.affiliateURL.value = this.digital
+                                    }
 
                                     it.actress.imageURL?.apply {
-                                        viewModel.imageUrl.value = this?.large
+                                        viewModel.imageUrl.value = this.large
                                     }
                                 }
                             }

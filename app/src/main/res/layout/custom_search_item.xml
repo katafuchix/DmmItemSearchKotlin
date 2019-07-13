@@ -28,7 +28,7 @@
                          app:layout_constraintTop_toTopOf="parent">
 
                 <include
-                        android:id="@+id/member_image"
+                        android:id="@+id/item_image"
                         layout="@layout/custom_item_image"
                         app:showNew="@{viewModel.showNew}"
                         app:showNow="@{viewModel.showNow}"

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright 2017 Harish Sridharan
+
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View"/>
+        <import type="com.example.dmmitemsearchsample.common.ui.SafeUnbox"/>
+        <variable name="viewModel" type="com.example.dmmitemsearchsample.ui.ActressSearchAdapterViewModel"/>
+
+    </data>
+
+    <androidx.cardview.widget.CardView android:id="@+id/card" android:layout_width="match_parent"
+                                       android:layout_height="wrap_content"
+                                       android:layout_margin="8dp"
+                                       android:foreground="?android:attr/selectableItemBackground"
+                                       app:cardCornerRadius="8dp">
+
+        <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginBottom="4dp"
+                      android:layout_marginLeft="8dp"
+                      android:layout_marginRight="8dp"
+                      android:layout_marginTop="4dp"
+                        android:orientation="vertical">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@android:color/white"
+                    android:orientation="horizontal"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp">
+
+                <FrameLayout android:layout_width="78dp"
+                             android:layout_height="78dp"
+                             android:layout_marginLeft="0dp"
+                             android:layout_marginRight="8dp"
+                             android:id="@+id/imageArea">
+
+                    <include
+                            android:id="@+id/item_image"
+                            layout="@layout/custom_actress_image"
+                            android:layout_width="match_parent" android:layout_height="match_parent"
+                            android:layout_marginTop="0dp"/>
+
+                </FrameLayout>
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="78dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="0dp">
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="3dp"
+                            android:id="@+id/name"
+                            android:text="@{viewModel.name}" android:textSize="14sp"/>
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginBottom="3dp"
+                            android:id="@+id/ruby"
+                            android:text="@{viewModel.ruby}" android:textSize="12sp"/>
+
+                    <LinearLayout android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="0dp"
+                                    android:layout_marginBottom="3dp"
+                                    android:orientation="horizontal">
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="1dp"
+                                android:layout_marginRight="2dp"
+                                android:id="@+id/height"
+                                android:text="@{viewModel.height}" android:textSize="10sp"/>
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="0dp"
+                                android:layout_marginRight="2dp"
+                                android:text="（" android:textSize="10sp"/>
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/bust"
+                                android:layout_marginLeft="1dp"
+                                android:layout_marginRight="2dp"
+                                android:text="@{viewModel.bust}" android:textSize="10sp"/>
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="1dp"
+                                android:layout_marginRight="2dp"
+                                android:text=" / " android:textSize="10sp"/>
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/waist"
+                                android:layout_marginLeft="1dp"
+                                android:layout_marginRight="2dp"
+                                android:text="@{viewModel.waist}" android:textSize="10sp"/>
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="1dp"
+                                android:layout_marginRight="2dp"
+                                android:text=" / " android:textSize="10sp"/>
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/hip"
+                                android:layout_marginLeft="1dp"
+                                android:layout_marginRight="2dp"
+                                android:text="@{viewModel.hip}" android:textSize="10sp"/>
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="0dp"
+                                android:layout_marginRight="2dp"
+                                android:text="）" android:textSize="10sp"/>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>
