@@ -92,7 +92,7 @@ class ActressSearchFragment : Fragment() {
 
                             if (isLoading.value == false
                                 && !lastItemLoaded
-                                && this@ActressSearchFragment.totalCount > this@ActressSearchFragment.loadingOffset + Constants.hits
+                                && this@ActressSearchFragment.totalCount > this@ActressSearchFragment.loadingOffset
                             ) {
 
                                 // 検索中
@@ -134,7 +134,6 @@ class ActressSearchFragment : Fragment() {
                     // 検索結果
                     actressSearchFragment.viewModel?.actressResult?.observe(actressSearchFragment, Observer {
                         // リストデータ追加
-                        Log.d("http", it.actressData.toString())
                         adapter.dataList.addAll(
                             it.actressData.map {
                                 ActressSearchAdapterViewModel().apply {
@@ -161,7 +160,7 @@ class ActressSearchFragment : Fragment() {
                         // ページ数
                         it.pages.run {
                             this@ActressSearchFragment.totalCount = this.totalCount
-                            if (this.totalCount > this@ActressSearchFragment.loadingOffset + Constants.hits) {
+                            if (this.totalCount > this@ActressSearchFragment.loadingOffset) {
                                 this@ActressSearchFragment.loadingOffset =
                                     this@ActressSearchFragment.loadingOffset + Constants.hits
                             } else {

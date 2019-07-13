@@ -48,12 +48,8 @@ class ActressSearchViewModel(
                 .subscribe(
                     { result ->
                         _actressResult.value = ActressResult(
-                            result.result.actress!!.map {
-                                Log.d("http", it.toString())
-                                ActressModel(it) },
-                            Pages(
-                                result.result.total_count, result.result.first_position
-                            )
+                            result.result.actress!!.map { ActressModel(it) },
+                            Pages(result.result.total_count, result.result.first_position)
                         )
                     },
                     {

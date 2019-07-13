@@ -51,12 +51,8 @@ class ItemSearchViewModel(
                 .subscribe(
                     { result ->
                         _itemsResult.value = ItemsResult(
-                            result.result.items!!.map {
-                                Log.d("http", it.toString())
-                                ItemModel(it) },
-                            Pages(
-                                result.result.total_count, result.result.first_position
-                            )
+                            result.result.items!!.map { ItemModel(it) },
+                            Pages(result.result.total_count, result.result.first_position)
                         )
                     },
                     {
