@@ -22,7 +22,6 @@ import com.example.dmmitemsearchsample.common.repository.DmmApiRepositoryImpl
 import com.example.dmmitemsearchsample.databinding.FragmentActresssearchBinding
 import com.example.dmmitemsearchsample.viewmodel.ActressSearchViewModel
 import com.kaopiz.kprogresshud.KProgressHUD
-import io.reactivex.subjects.BehaviorSubject
 
 class ActressSearchFragment : Fragment() {
 
@@ -59,12 +58,8 @@ class ActressSearchFragment : Fragment() {
         }
     }
 
-    // keyword監視
-    val keywordSubject = BehaviorSubject.create<String>()
+    // keyword
     var keyword: String = ""
-        set(value) {
-            keywordSubject.onNext(value)
-        }
 
     var hud: KProgressHUD? = null
     var lastItemLoaded: Boolean = false
@@ -128,15 +123,13 @@ class ActressSearchFragment : Fragment() {
                             searchView.clearFocus()
                             // 検索開始
                             actressSearchFragment.keyword = query
+                            // 検索
+                            actressSearchFragment.loadingOffset = 1
+                            actressSearchFragment.viewModel?.getActresses(actressSearchFragment.keyword,
+                                                                            actressSearchFragment.loadingOffset)
                             return true
                         }
                     })
-
-                    // 検索
-                    keywordSubject.subscribe {
-                        actressSearchFragment.loadingOffset = 1
-                        actressSearchFragment.viewModel?.getActresses(it, 1)
-                    }
 
                     // 検索結果
                     actressSearchFragment.viewModel?.actressResult?.observe(actressSearchFragment, Observer {

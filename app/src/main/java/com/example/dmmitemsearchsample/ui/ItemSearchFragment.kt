@@ -1,14 +1,11 @@
 package com.example.dmmitemsearchsample.ui
 
 import android.os.Bundle
-import android.provider.SyncStateContract
-import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -22,8 +19,6 @@ import com.example.dmmitemsearchsample.common.repository.DmmApiRepositoryImpl
 import com.example.dmmitemsearchsample.viewmodel.ItemSearchViewModel
 import com.example.dmmitemsearchsample.databinding.FragmentItemsearchBinding
 import com.kaopiz.kprogresshud.KProgressHUD
-import io.reactivex.subjects.BehaviorSubject
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
@@ -74,12 +69,8 @@ class ItemSearchFragment : Fragment() {
         }
     }
 
-    // keyword監視
-    val keywordSubject = BehaviorSubject.create<String>()
+    // keyword
     var keyword: String = ""
-        set(value) {
-            keywordSubject.onNext(value)
-        }
 
     var hud: KProgressHUD? = null
     var lastItemLoaded: Boolean = false
@@ -107,14 +98,14 @@ class ItemSearchFragment : Fragment() {
 
                             if (isLoading.value == false
                                 && !lastItemLoaded
-                                && this@ItemSearchFragment.totalCount > this@ItemSearchFragment.loadingOffset + Constants.hits) {
+                                && this@ItemSearchFragment.totalCount > this@ItemSearchFragment.loadingOffset) {
 
                                 // 検索中
                                 isLoading.value = true
 
                                 // APIコール
                                 this@ItemSearchFragment.viewModel?.getItems(
-                                                        this@ItemSearchFragment.keyword,
+                                                        itemSearchFragment.keyword,
                                                         this@ItemSearchFragment.loadingOffset)
                             }
                         })
@@ -136,15 +127,13 @@ class ItemSearchFragment : Fragment() {
                             searchView.clearFocus()
                             // 検索開始
                             itemSearchFragment.keyword = query
+                            // 検索
+                            itemSearchFragment.loadingOffset = 1
+                            itemSearchFragment.viewModel?.getItems(itemSearchFragment.keyword,
+                                                                    itemSearchFragment.loadingOffset)
                             return true
                         }
                     })
-
-                    // 検索
-                    keywordSubject.subscribe {
-                        itemSearchFragment.loadingOffset = 1
-                        itemSearchFragment.viewModel?.getItems(it, 1)
-                    }
 
                     // 検索結果
                     itemSearchFragment.viewModel?.itemsResult?.observe(itemSearchFragment, Observer {
@@ -167,7 +156,7 @@ class ItemSearchFragment : Fragment() {
                         // ページ数
                         it.pages.run {
                             this@ItemSearchFragment.totalCount = this.totalCount
-                            if(this.totalCount > this@ItemSearchFragment.loadingOffset + Constants.hits) {
+                            if(this.totalCount > this@ItemSearchFragment.loadingOffset) {
                                 this@ItemSearchFragment.loadingOffset = this@ItemSearchFragment.loadingOffset + Constants.hits
                             } else {
                                 this@ItemSearchFragment.lastItemLoaded = true
